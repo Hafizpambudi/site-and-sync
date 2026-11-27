@@ -63,6 +63,19 @@ body {
   }
 }
 
+@keyframes explorer-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
 /* Long-form case study prose. Serif appears here and nowhere else. */
 .prose-editorial {
   font-family: var(--font-serif);

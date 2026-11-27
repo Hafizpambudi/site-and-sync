@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CaseCard } from "@/components/CaseCard";
+import { CaseStudyExplorer } from "@/components/explorer/CaseStudyExplorer";
 import { getAllSlugs, getExplorer, getFeatured, getSite } from "@/lib/content";
 import { validateExplorer } from "@/lib/validate-explorer";
 
@@ -37,16 +38,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="explorer" aria-label="Case study explorer" className="border-t border-rule">
-        <div className="mx-auto max-w-[1120px] px-6 py-20 md:px-10 md:py-28">
-          <p className="font-mono text-[11px] tracking-[0.14em] text-ink-faint uppercase">
-            01 — Explorer
-          </p>
-          <h2 className="mt-4 max-w-[26ch] text-[clamp(28px,3.4vw,44px)] leading-[1.06] font-semibold tracking-[-0.02em]">
-            Ask the work, not the résumé.
-          </h2>
-        </div>
-      </section>
+      <CaseStudyExplorer data={explorer} />
 
       <section className="border-t border-rule">
         <div className="mx-auto max-w-[1120px] px-6 py-20 md:px-10 md:py-28">
