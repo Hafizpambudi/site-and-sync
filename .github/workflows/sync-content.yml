@@ -1,0 +1,60 @@
+name: Sync content
+
+on:
+  repository_dispatch:
+    types: [notion-sync]
+  schedule:
+    # Sunday 03:00 WIB (20:00 UTC).
+    - cron: "0 20 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Two syncs racing on the same commit would fight over the push.
+concurrency:
+  group: content-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run sync
+        run: npm run sync
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+
+      - name: Commit content
+        run: |
+          if [ -z "$(git status --porcelain content public/content)" ]; then
+            echo "No content changes"
+            exit 0
+          fi
+          git config user.name "content-bot"
+          git config user.email "content-bot@users.noreply.github.com"
+          git add -A content
+          if [ -d public/content ]; then git add -A public/content; fi
+          git commit -m "content: sync from notion"
+          git push
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ -f .last-sync.json ]; then
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            cat .last-sync.json >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
