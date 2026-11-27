@@ -62,3 +62,134 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Long-form case study prose. Serif appears here and nowhere else. */
+.prose-editorial {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.65;
+  max-width: 66ch;
+}
+
+.prose-editorial > * + * {
+  margin-top: 1.25em;
+}
+
+.prose-editorial h2,
+.prose-editorial h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+}
+
+.prose-editorial h2 {
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.prose-editorial h3 {
+  font-size: 19px;
+  line-height: 1.3;
+}
+
+.prose-editorial ul,
+.prose-editorial ol {
+  padding-left: 1.2em;
+}
+
+.prose-editorial ul {
+  list-style: disc;
+}
+
+.prose-editorial ol {
+  list-style: decimal;
+}
+
+.prose-editorial li + li {
+  margin-top: 0.4em;
+}
+
+.prose-editorial a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose-editorial a:hover {
+  color: var(--color-accent-ink);
+}
+
+.prose-editorial strong {
+  font-weight: 600;
+}
+
+.prose-editorial img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-rule);
+}
+
+.prose-editorial blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1.1em;
+  color: var(--color-ink-muted);
+  font-style: italic;
+}
+
+.prose-editorial code {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
+  padding: 0.1em 0.35em;
+}
+
+.prose-editorial pre {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
+  padding: 1em 1.1em;
+  overflow-x: auto;
+}
+
+.prose-editorial pre code {
+  border: 0;
+  padding: 0;
+  background: none;
+}
+
+.prose-editorial hr {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+}
+
+.prose-table-scroll {
+  overflow-x: auto;
+}
+
+.prose-editorial table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 15px;
+}
+
+.prose-editorial th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  text-align: left;
+}
+
+.prose-editorial th,
+.prose-editorial td {
+  border-bottom: 1px solid var(--color-rule);
+  padding: 0.55em 0.9em 0.55em 0;
+  vertical-align: top;
+}

@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build",
-    "sync": "tsx scripts/sync/cli.ts"
+    "sync": "tsx scripts/sync/cli.ts",
+    "index": "tsx scripts/sync/reindex.ts"
   },
   "dependencies": {
     "@notionhq/client": "5.32.0",
