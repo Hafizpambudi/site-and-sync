@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, JetBrains_Mono, Newsreader } from "next/font/google";
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -35,7 +37,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${archivo.variable} ${newsreader.variable} ${jetbrains.variable}`}
     >
-      <body>{children}</body>
+      <body className="flex min-h-dvh flex-col">
+        <SiteHeader />
+        <div className="flex-1">{children}</div>
+        <SiteFooter />
+      </body>
     </html>
   );
 }

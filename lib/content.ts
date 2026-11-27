@@ -31,6 +31,21 @@ export type CaseStudy = {
   markdown: string;
 };
 
+export type SiteLink = {
+  label: string;
+  href: string;
+};
+
+export type SiteInfo = {
+  name: string;
+  role: string;
+  thesis: string;
+  supporting: string;
+  email: string;
+  availability: string;
+  links: SiteLink[];
+};
+
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 const CASE_STUDY_ROOT = path.join(CONTENT_ROOT, "case-studies");
 const INDEX_FILE = path.join(CASE_STUDY_ROOT, "index.json");
@@ -94,4 +109,25 @@ export function getNeighbours(slug: string): { previous: CaseStudyMeta | null; n
     previous: index[position - 1] ?? null,
     next: index[position + 1] ?? null,
   };
+}
+
+const SITE_FILE = path.join(CONTENT_ROOT, "site.json");
+
+const SITE_FALLBACK: SiteInfo = {
+  name: "Hafiz Pambudi",
+  role: "Full-stack AI Engineer",
+  thesis: "Most of my work starts as a vague request and ends as a shipped system with a number attached.",
+  supporting: "",
+  email: "",
+  availability: "",
+  links: [],
+};
+
+export function getSite(): SiteInfo {
+  try {
+    const raw = JSON.parse(readFileSync(SITE_FILE, "utf8")) as Partial<SiteInfo>;
+    return { ...SITE_FALLBACK, ...raw };
+  } catch {
+    return SITE_FALLBACK;
+  }
 }
