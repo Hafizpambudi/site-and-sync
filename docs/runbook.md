@@ -9,7 +9,7 @@ Vercel project:
 | Variable | Used by | Meaning |
 | --- | --- | --- |
 | `NOTION_WEBHOOK_VERIFICATION_TOKEN` | webhook route | HMAC key for `X-Notion-Signature`. Returned by Notion when the subscription is created. |
-| `GITHUB_DISPATCH_TOKEN` | webhook route | Fine-grained GitHub token with `contents: read` and `actions: write` on the repo. |
+| `GITHUB_DISPATCH_TOKEN` | webhook route | Fine-grained GitHub token with **Contents: read and write** on the repo. Write is required to create a `repository_dispatch`. A classic PAT with the `repo` scope also works. |
 | `GITHUB_REPO` | webhook route | `owner/repo`, the dispatch target. |
 
 GitHub Actions secrets:
