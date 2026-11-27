@@ -5,6 +5,14 @@
   "supporting": "I build the whole path: the data work, the model, the interface, and the evaluation that says whether any of it helped.",
   "email": "budihafiz46@gmail.com",
   "availability": "Open to full-stack AI engineering work.",
+  "stack": [
+    "TypeScript",
+    "Python",
+    "FastAPI",
+    "Next.js",
+    "Postgres + pgvector",
+    "Evals in CI"
+  ],
   "links": [
     {
       "label": "GitHub",

@@ -43,6 +43,7 @@ export type SiteInfo = {
   supporting: string;
   email: string;
   availability: string;
+  stack: string[];
   links: SiteLink[];
 };
 
@@ -120,6 +121,7 @@ const SITE_FALLBACK: SiteInfo = {
   supporting: "",
   email: "",
   availability: "",
+  stack: [],
   links: [],
 };
 
