@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CaseCard } from "@/components/CaseCard";
 import { CaseStudyExplorer } from "@/components/explorer/CaseStudyExplorer";
+import { Reveal } from "@/components/Reveal";
 import { getAllSlugs, getExplorer, getFeatured, getSite } from "@/lib/content";
 import { validateExplorer } from "@/lib/validate-explorer";
 
@@ -61,8 +62,10 @@ export default function Home() {
 
           {featured.length > 0 ? (
             <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {featured.map((item) => (
-                <CaseCard key={item.slug} item={item} />
+              {featured.map((item, index) => (
+                <Reveal key={item.slug} index={index} className="h-full">
+                  <CaseCard item={item} />
+                </Reveal>
               ))}
             </div>
           ) : (

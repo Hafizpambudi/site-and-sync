@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { CaseCard } from "@/components/CaseCard";
+import { Reveal } from "@/components/Reveal";
 import type { CaseStudyMeta } from "@/lib/content";
 
 export function WorkList({ items, tags }: { items: CaseStudyMeta[]; tags: string[] }) {
@@ -32,8 +33,10 @@ export function WorkList({ items, tags }: { items: CaseStudyMeta[]; tags: string
 
       {visible.length > 0 ? (
         <div className="mt-6 grid gap-5 md:grid-cols-2">
-          {visible.map((item) => (
-            <CaseCard key={item.slug} item={item} />
+          {visible.map((item, index) => (
+            <Reveal key={item.slug} index={index} className="h-full">
+              <CaseCard item={item} />
+            </Reveal>
           ))}
         </div>
       ) : (

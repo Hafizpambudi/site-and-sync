@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, JetBrains_Mono, Newsreader } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         <div className="flex-1">{children}</div>
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );
