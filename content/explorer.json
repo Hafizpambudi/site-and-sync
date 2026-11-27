@@ -1,0 +1,117 @@
+{
+  "stages": ["problem", "constraint", "move", "proof", "validation", "stack"],
+  "questions": [
+    {
+      "id": "handed",
+      "stage": "problem",
+      "label": "What you got handed",
+      "question": "What did they hand you?",
+      "answer": "Two lawyers and 28,000 documents. No searchable archive, so every answer lived in someone's memory or a folder nobody could find.",
+      "widgets": ["context"],
+      "caseStudy": "legal-rag-archive"
+    },
+    {
+      "id": "constraint",
+      "stage": "constraint",
+      "label": "What made it hard",
+      "question": "What made it hard?",
+      "answer": "The documents were the product. Retrieval had to be defensible, not plausible, and every answer needed a citation a lawyer could check.",
+      "widgets": ["constraints"],
+      "caseStudy": "legal-rag-archive"
+    },
+    {
+      "id": "move",
+      "stage": "move",
+      "label": "What you built",
+      "question": "What did you build?",
+      "answer": "An agentic retrieval pipeline over the full corpus, with a reranker and a citation step, so the model could not answer without a source.",
+      "widgets": ["steps"],
+      "caseStudy": "legal-rag-archive"
+    },
+    {
+      "id": "proof",
+      "stage": "proof",
+      "label": "What changed by the numbers",
+      "question": "What changed by the numbers?",
+      "answer": "Eval accuracy rose 20% over the baseline retriever. End-to-end latency fell 26%, and manual document prep fell 70%.",
+      "widgets": ["metrics", "beforeAfter"],
+      "caseStudy": "legal-rag-archive"
+    },
+    {
+      "id": "validation",
+      "stage": "validation",
+      "label": "How you know it worked",
+      "question": "How do you know it worked?",
+      "answer": "A labelled eval set ran in CI. The scoring gate was validated on 150 rows before it was allowed to decide anything.",
+      "widgets": ["compare"],
+      "caseStudy": "lead-scoring-gate"
+    },
+    {
+      "id": "stack",
+      "stage": "stack",
+      "label": "What's under the hood",
+      "question": "What's under the hood?",
+      "answer": "Postgres with pgvector, a Python ingestion worker, a TypeScript API, and an eval harness that blocks a deploy when accuracy regresses.",
+      "widgets": ["stack"],
+      "caseStudy": "legal-rag-archive"
+    }
+  ],
+  "widgets": {
+    "context": {
+      "type": "context",
+      "items": [
+        { "value": "28,000", "label": "documents" },
+        { "value": "2", "label": "lawyers, no archive" },
+        { "value": "0", "label": "searchable entries" }
+      ]
+    },
+    "constraints": {
+      "type": "constraints",
+      "items": [
+        "Every answer must cite a document",
+        "Confidential material stays on the server",
+        "Wrong answers cost more than slow answers"
+      ]
+    },
+    "steps": {
+      "type": "steps",
+      "items": [
+        { "tag": "01", "title": "Ingest", "detail": "Normalise and chunk 28,000 documents" },
+        { "tag": "02", "title": "Retrieve", "detail": "Hybrid search with a reranker" },
+        { "tag": "03", "title": "Cite", "detail": "Answer only with a resolved source" }
+      ]
+    },
+    "metrics": {
+      "type": "metrics",
+      "items": [
+        { "value": "+20%", "label": "eval accuracy" },
+        { "value": "-26%", "label": "end-to-end latency" },
+        { "value": "-70%", "label": "manual prep" }
+      ]
+    },
+    "beforeAfter": {
+      "type": "beforeAfter",
+      "items": [
+        { "label": "Latency", "before": "100", "after": "74", "delta": "-26%" },
+        { "label": "Manual prep", "before": "100", "after": "30", "delta": "-70%" }
+      ]
+    },
+    "compare": {
+      "type": "compare",
+      "items": [
+        { "ok": false, "what": "Manual list building", "detail": "Noisy, unrepeatable, no gate" },
+        { "ok": true, "what": "Scored list", "detail": "658 qualified contacts across 173 companies" },
+        { "ok": true, "what": "Eval set", "detail": "150 labelled rows before the gate shipped" }
+      ]
+    },
+    "stack": {
+      "type": "stack",
+      "items": [
+        { "tool": "Postgres + pgvector", "why": "One store for rows and embeddings" },
+        { "tool": "Python worker", "why": "Ingestion is batch work, not a request" },
+        { "tool": "TypeScript API", "why": "Same language as the product surface" },
+        { "tool": "Eval harness in CI", "why": "A regression fails the build" }
+      ]
+    }
+  }
+}
