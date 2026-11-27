@@ -1,8 +1,8 @@
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { downloadImages, imageFilename } from "./images";
+import { downloadCover, downloadImages, imageFilename, pruneImages } from "./images";
 import type { NotionBlock } from "./types";
 
 afterEach(() => {
@@ -125,6 +125,46 @@ describe("downloadImages", () => {
       /404/,
     );
 
+    await rm(root, { recursive: true, force: true });
+  });
+});
+
+describe("downloadCover", () => {
+  it("stores the cover under a stable, prefixed name", async () => {
+    const root = await mkdtemp(path.join(tmpdir(), "sync-cover-"));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => new Response(new Uint8Array([9]), { status: 200 })),
+    );
+
+    const publicPath = await downloadCover("https://s3/cover.png?sig=1", "slug", root);
+
+    expect(publicPath).toMatch(/^\/content\/case-studies\/slug\/cover-[a-f0-9]{12}\.png$/);
+    expect(await readFile(path.join(root, "public", publicPath))).toEqual(Buffer.from([9]));
+
+    await rm(root, { recursive: true, force: true });
+  });
+});
+
+describe("pruneImages", () => {
+  it("deletes files that the current sync did not produce", async () => {
+    const root = await mkdtemp(path.join(tmpdir(), "sync-prune-"));
+    const directory = path.join(root, "public", "content", "case-studies", "slug");
+    await mkdir(directory, { recursive: true });
+    await writeFile(path.join(directory, "keep.png"), "a");
+    await writeFile(path.join(directory, "stale.png"), "b");
+
+    const removed = await pruneImages("slug", new Set(["keep.png"]), root);
+
+    expect(removed).toEqual(["stale.png"]);
+    expect(await readdir(directory)).toEqual(["keep.png"]);
+
+    await rm(root, { recursive: true, force: true });
+  });
+
+  it("is a no-op when the directory does not exist", async () => {
+    const root = await mkdtemp(path.join(tmpdir(), "sync-prune-"));
+    expect(await pruneImages("missing", new Set(), root)).toEqual([]);
     await rm(root, { recursive: true, force: true });
   });
 });

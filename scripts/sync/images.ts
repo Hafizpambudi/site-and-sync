@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { withRetry } from "./retry";
 import { childBlocksOf, payloadOf, type NotionBlock } from "./types";
@@ -90,4 +90,42 @@ export async function downloadImages(
   }
 
   return byBlock;
+}
+
+export async function downloadCover(
+  url: string,
+  slug: string,
+  root = process.cwd(),
+): Promise<string> {
+  const filename = `cover-${imageFilename(url)}`;
+  await downloadImage(url, slug, filename, root);
+  return `/content/case-studies/${slug}/${filename}`;
+}
+
+/**
+ * Runs after a successful download pass, never before: deleting first would
+ * turn a failed download into missing images on an otherwise live page.
+ */
+export async function pruneImages(
+  slug: string,
+  keep: Set<string>,
+  root = process.cwd(),
+): Promise<string[]> {
+  const directory = path.join(root, "public", "content", "case-studies", slug);
+  let entries: string[];
+
+  try {
+    entries = await readdir(directory);
+  } catch {
+    return [];
+  }
+
+  const removed: string[] = [];
+  for (const entry of entries) {
+    if (keep.has(entry)) continue;
+    await rm(path.join(directory, entry), { force: true });
+    removed.push(entry);
+  }
+
+  return removed;
 }
