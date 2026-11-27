@@ -1,10 +1,15 @@
 import Link from "next/link";
 import { CaseCard } from "@/components/CaseCard";
-import { getFeatured, getSite } from "@/lib/content";
+import { getAllSlugs, getExplorer, getFeatured, getSite } from "@/lib/content";
+import { validateExplorer } from "@/lib/validate-explorer";
 
 export default function Home() {
   const site = getSite();
   const featured = getFeatured(3);
+
+  const explorer = getExplorer();
+  const errors = validateExplorer(explorer, getAllSlugs());
+  if (errors.length > 0) throw new Error(`explorer.json invalid:\n${errors.join("\n")}`);
 
   return (
     <main>
