@@ -35,6 +35,7 @@ The sync reads property names, case-sensitively. Two are required; everything el
 | `Role` | Text | Shown under the case study title. |
 | `Timeline` | Text | Shown under the case study title. |
 | `Cover` | Files | Downloaded into `public/content/case-studies/<slug>/`. |
+| `Demo` | URL | Optional. Renders one `Open demo` button under the summary. Non-http values are dropped. |
 
 A `Status` property of type *Status* (the Notion status kind) does not work — the query filters a Select. Use Select.
 

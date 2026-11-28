@@ -26,6 +26,7 @@ export function metaFromFrontmatter(slug: string, data: FrontmatterData): CaseSt
     featured: data.featured === true,
     role: asString(data.role) ?? "",
     timeline: asString(data.timeline),
+    demo: asString(data.demo),
   };
 }
 

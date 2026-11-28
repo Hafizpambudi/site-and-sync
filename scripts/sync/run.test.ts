@@ -12,6 +12,7 @@ const meta = (slug: string): CaseStudyMeta => ({
   featured: false,
   role: "role",
   timeline: null,
+  demo: null,
 });
 
 function deps(overrides: Partial<SyncDeps> = {}): SyncDeps {

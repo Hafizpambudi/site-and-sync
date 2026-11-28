@@ -58,6 +58,17 @@ export default async function CaseStudyPage({ params }: Params) {
 
         <p className="mt-10 max-w-[66ch] font-serif text-[21px] leading-[1.6]">{meta.summary}</p>
 
+        {meta.demo ? (
+          <a
+            href={meta.demo}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="mt-8 inline-flex min-h-11 items-center rounded-[8px] border border-rule px-5 font-mono text-[11px] tracking-[0.12em] uppercase transition-colors duration-200 hover:border-ink-faint"
+          >
+            Open demo
+          </a>
+        ) : null}
+
         {meta.cover ? (
           <Image
             src={meta.cover}

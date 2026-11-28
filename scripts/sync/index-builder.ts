@@ -8,6 +8,8 @@ export type CaseStudyMeta = {
   featured: boolean;
   role: string;
   timeline: string | null;
+  /** Optional public demo, surfaced as one button on the case study page. */
+  demo: string | null;
 };
 
 /**

@@ -82,6 +82,20 @@ function firstText(properties: Record<string, unknown>, names: string[]): string
   return "";
 }
 
+/**
+ * A Notion URL property accepts any scheme, so only http(s) may reach an href.
+ */
+export function httpUrl(value: string): string | null {
+  if (!value) return null;
+
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
 export function extractMeta(
   properties: Record<string, unknown>,
   slug: string,
@@ -101,6 +115,7 @@ export function extractMeta(
       featured: propertyText(properties, "Featured") === "true",
       role: firstText(properties, ["Role"]),
       timeline: timeline || null,
+      demo: httpUrl(firstText(properties, ["Demo"])),
     },
     coverSource: propertyFiles(properties, "Cover")[0] ?? null,
   };

@@ -11,6 +11,7 @@ const meta = (slug: string, date: string, featured = false): CaseStudyMeta => ({
   featured,
   role: "r",
   timeline: null,
+  demo: null,
 });
 
 describe("buildIndex", () => {

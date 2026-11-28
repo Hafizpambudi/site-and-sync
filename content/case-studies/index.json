@@ -8,7 +8,8 @@
     "cover": null,
     "featured": false,
     "role": "",
-    "timeline": null
+    "timeline": null,
+    "demo": null
   },
   {
     "slug": "agent-should-be-faster-the-operation",
@@ -19,7 +20,8 @@
     "cover": null,
     "featured": false,
     "role": "",
-    "timeline": null
+    "timeline": null,
+    "demo": null
   },
   {
     "slug": "api-deployment-using-code-engine-from-ibm-cloud-services",
@@ -30,7 +32,8 @@
     "cover": null,
     "featured": false,
     "role": "",
-    "timeline": null
+    "timeline": null,
+    "demo": null
   },
   {
     "slug": "building-api-for-image-classification-model-using-fast-api",
@@ -41,6 +44,7 @@
     "cover": null,
     "featured": false,
     "role": "",
-    "timeline": null
+    "timeline": null,
+    "demo": null
   }
 ]

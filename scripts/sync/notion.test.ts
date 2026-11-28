@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { extractMeta, propertyFiles, propertyText } from "./notion";
+import { extractMeta, httpUrl, propertyFiles, propertyText } from "./notion";
 
 const rich = (content: string) => [{ plain_text: content, text: { content }, annotations: {} }];
 
@@ -13,6 +13,7 @@ const properties = (overrides: Record<string, unknown> = {}) => ({
   Timeline: { type: "rich_text", rich_text: rich("9 weeks") },
   Tags: { type: "multi_select", multi_select: [{ name: "RAG" }, { name: "Evals" }] },
   Featured: { type: "checkbox", checkbox: true },
+  Demo: { type: "url", url: "https://hafizpambudi.github.io/ads-optimization-agent/demo.html" },
   Cover: {
     type: "files",
     files: [{ type: "file", name: "cover.png", file: { url: "https://s3/cover.png?sig=1" } }],
@@ -55,6 +56,24 @@ describe("propertyFiles", () => {
   });
 });
 
+describe("httpUrl", () => {
+  it("keeps http and https urls", () => {
+    expect(httpUrl("https://example.com/demo")).toBe("https://example.com/demo");
+    expect(httpUrl("http://example.com")).toBe("http://example.com/");
+  });
+
+  it("drops every other scheme", () => {
+    expect(httpUrl("javascript:alert(1)")).toBeNull();
+    expect(httpUrl("mailto:a@b.co")).toBeNull();
+    expect(httpUrl("data:text/html,x")).toBeNull();
+  });
+
+  it("drops empty values and non-urls", () => {
+    expect(httpUrl("")).toBeNull();
+    expect(httpUrl("not a url")).toBeNull();
+  });
+});
+
 describe("extractMeta", () => {
   it("maps notion properties onto the case study schema", () => {
     const { meta, coverSource } = extractMeta(properties(), "legal-rag-archive");
@@ -69,6 +88,7 @@ describe("extractMeta", () => {
       featured: true,
       role: "Solo full-stack AI engineer",
       timeline: "9 weeks",
+      demo: "https://hafizpambudi.github.io/ads-optimization-agent/demo.html",
     });
     expect(coverSource).toBe("https://s3/cover.png?sig=1");
   });
@@ -83,6 +103,14 @@ describe("extractMeta", () => {
       "a",
     );
     expect(meta.timeline).toBeNull();
+  });
+
+  it("drops a demo url that is not http", () => {
+    const { meta } = extractMeta(
+      properties({ Demo: { type: "url", url: "javascript:alert(1)" } }),
+      "a",
+    );
+    expect(meta.demo).toBeNull();
   });
 
   it("keeps the slug it was given, not the one in the property", () => {
@@ -103,6 +131,7 @@ describe("extractMeta", () => {
     expect(meta.cover).toBeNull();
     expect(meta.featured).toBe(false);
     expect(meta.timeline).toBeNull();
+    expect(meta.demo).toBeNull();
     expect(coverSource).toBeNull();
   });
 

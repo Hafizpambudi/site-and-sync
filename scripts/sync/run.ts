@@ -48,6 +48,7 @@ function documentFor(
     timeline: meta.timeline,
     tags: meta.tags,
     cover: meta.cover,
+    demo: meta.demo,
     featured: meta.featured,
     notionId: row.notionId,
     notionLastEdited: row.lastEdited,
