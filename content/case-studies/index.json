@@ -31,5 +31,16 @@
     "featured": false,
     "role": "",
     "timeline": null
+  },
+  {
+    "slug": "building-api-for-image-classification-model-using-fast-api",
+    "title": "Building API for Image classfication model using FAST API + PYTORCH",
+    "summary": "API Bulding",
+    "date": "2024-05-22",
+    "tags": [],
+    "cover": null,
+    "featured": false,
+    "role": "",
+    "timeline": null
   }
 ]
