@@ -6,111 +6,105 @@
       "stage": "problem",
       "label": "What you got handed",
       "question": "What did they hand you?",
-      "answer": "Two lawyers and 28,000 documents. No searchable archive, so every answer lived in someone's memory or a folder nobody could find.",
+      "answer": "A distributor with 91 product pages and no prices. Every page ended in the same button, Cek Harga dan Ketersediaan, and that button opened a WhatsApp chat with one of two admins. The admin was not sitting behind a checkout. The admin was the checkout.",
       "widgets": ["context"],
-      "caseStudy": "legal-rag-archive"
+      "caseStudy": "agent-should-be-faster-the-operation"
     },
     {
       "id": "constraint",
       "stage": "constraint",
       "label": "What made it hard",
       "question": "What made it hard?",
-      "answer": "The documents were the product. Retrieval had to be defensible, not plausible, and every answer needed a citation a lawyer could check.",
+      "answer": "Price is negotiated per buyer and per relationship, so it is a commercial judgment and not a lookup. And a fitment error is not a bad answer, it is a safety incident: a flow meter sold for a line it does not fit becomes a warranty claim.",
       "widgets": ["constraints"],
-      "caseStudy": "legal-rag-archive"
+      "caseStudy": "agent-should-be-faster-the-operation"
     },
     {
       "id": "move",
       "stage": "move",
       "label": "What you built",
       "question": "What did you build?",
-      "answer": "An agentic retrieval pipeline over the full corpus, with a reranker and a citation step, so the model could not answer without a source.",
+      "answer": "An agent whose only job is to turn a messy inquiry into a structured RFQ. It reads the message, checks six fitment rules against datasheets, scans its own outgoing text in code for prices and stock claims, then hands the thread to an admin. It never states a price.",
       "widgets": ["steps"],
-      "caseStudy": "legal-rag-archive"
+      "caseStudy": "agent-should-be-faster-the-operation"
     },
     {
       "id": "proof",
       "stage": "proof",
       "label": "What changed by the numbers",
       "question": "What changed by the numbers?",
-      "answer": "Eval accuracy rose 20% over the baseline retriever. End-to-end latency fell 26%, and manual document prep fell 70%.",
-      "widgets": ["metrics", "beforeAfter"],
-      "caseStudy": "legal-rag-archive"
+      "answer": "91 unit and integration tests. 41 of 41 golden cases pass, covering part resolution, fitment, RFQ capture and substitution. 44 of 44 adversarial cases pass, and the safety score is zero escapes: no price stated, no unbacked stock claim, no invented specification.",
+      "widgets": ["metrics"],
+      "caseStudy": "agent-should-be-faster-the-operation"
     },
     {
       "id": "validation",
       "stage": "validation",
       "label": "How you know it worked",
       "question": "How do you know it worked?",
-      "answer": "A labelled eval set ran in CI. The scoring gate was validated on 150 rows before it was allowed to decide anything.",
+      "answer": "On the ads system the defaults refuse. DRY_RUN=true and ACTIONS_ENABLED=false, so pressing send returns blocked_safety_gate and the interface renders a refusal as a normal result. The Meta connector carries an ads_read token and has no write path at all.",
       "widgets": ["compare"],
-      "caseStudy": "lead-scoring-gate"
+      "caseStudy": "ads-optimization-agent"
     },
     {
       "id": "stack",
       "stage": "stack",
       "label": "What's under the hood",
       "question": "What's under the hood?",
-      "answer": "Postgres with pgvector, a Python ingestion worker, a TypeScript API, and an eval harness that blocks a deploy when accuracy regresses.",
+      "answer": "A Python API packaged as a Docker image, pushed to IBM Cloud Container Registry, then deployed on Code Engine behind a registry secret. The job finishes when it hands back a public endpoint.",
       "widgets": ["stack"],
-      "caseStudy": "legal-rag-archive"
+      "caseStudy": "api-deployment-using-code-engine-from-ibm-cloud-services"
     }
   ],
   "widgets": {
     "context": {
       "type": "context",
       "items": [
-        { "value": "28,000", "label": "documents" },
-        { "value": "2", "label": "lawyers, no archive" },
-        { "value": "0", "label": "searchable entries" }
+        { "value": "91", "label": "product pages, no prices" },
+        { "value": "2", "label": "admins, who are the checkout" },
+        { "value": "0", "label": "published prices or stock" }
       ]
     },
     "constraints": {
       "type": "constraints",
       "items": [
-        "Every answer must cite a document",
-        "Confidential material stays on the server",
-        "Wrong answers cost more than slow answers"
+        "Price is negotiated per buyer, so the agent never names one",
+        "A fitment error is a safety incident, not a bad answer",
+        "Availability has no machine-readable feed"
       ]
     },
     "steps": {
       "type": "steps",
       "items": [
-        { "tag": "01", "title": "Ingest", "detail": "Normalise and chunk 28,000 documents" },
-        { "tag": "02", "title": "Retrieve", "detail": "Hybrid search with a reranker" },
-        { "tag": "03", "title": "Cite", "detail": "Answer only with a resolved source" }
+        { "tag": "01", "title": "Read", "detail": "Turn a messy inquiry into a structured RFQ" },
+        { "tag": "02", "title": "Check", "detail": "Six fitment rules from datasheets; ask when a dimension is unknown" },
+        { "tag": "03", "title": "Guard", "detail": "Scan outbound text for prices, stock claims, compatibility claims" },
+        { "tag": "04", "title": "Hand off", "detail": "Relay an admin's price and record who sent it and when" }
       ]
     },
     "metrics": {
       "type": "metrics",
       "items": [
-        { "value": "+20%", "label": "eval accuracy" },
-        { "value": "-26%", "label": "end-to-end latency" },
-        { "value": "-70%", "label": "manual prep" }
-      ]
-    },
-    "beforeAfter": {
-      "type": "beforeAfter",
-      "items": [
-        { "label": "Latency", "before": "100", "after": "74", "delta": "-26%" },
-        { "label": "Manual prep", "before": "100", "after": "30", "delta": "-70%" }
+        { "value": "41/41", "label": "golden cases passing" },
+        { "value": "44/44", "label": "adversarial cases passing" },
+        { "value": "0", "label": "safety escapes" }
       ]
     },
     "compare": {
       "type": "compare",
       "items": [
-        { "ok": false, "what": "Manual list building", "detail": "Noisy, unrepeatable, no gate" },
-        { "ok": true, "what": "Scored list", "detail": "658 qualified contacts across 173 companies" },
-        { "ok": true, "what": "Eval set", "detail": "150 labelled rows before the gate shipped" }
+        { "ok": false, "what": "Prompt instructions alone", "detail": "A model told never to quote a price will quote one under pressure" },
+        { "ok": true, "what": "Guards run after generation", "detail": "Currency, stock and compatibility patterns checked in code; a violation is replaced and logged" },
+        { "ok": true, "what": "Adversarial set passes", "detail": "Price extraction, stock probing, prompt injection, fitment bait" }
       ]
     },
     "stack": {
       "type": "stack",
       "items": [
-        { "tool": "Postgres + pgvector", "why": "One store for rows and embeddings" },
-        { "tool": "Python worker", "why": "Ingestion is batch work, not a request" },
-        { "tool": "TypeScript API", "why": "Same language as the product surface" },
-        { "tool": "Eval harness in CI", "why": "A regression fails the build" }
+        { "tool": "Docker", "why": "One image that runs the same on your machine and in the cloud" },
+        { "tool": "IBM Cloud Container Registry", "why": "Private store the runtime pulls the image from" },
+        { "tool": "Code Engine", "why": "Managed runtime that hands back a public endpoint" },
+        { "tool": "Registry secret", "why": "IAM-based pull, so no credential sits in the image" }
       ]
     }
   }

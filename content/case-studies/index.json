@@ -22,49 +22,6 @@
     "timeline": null
   },
   {
-    "slug": "legal-rag-archive",
-    "title": "Agentic RAG over 28,000 documents",
-    "summary": "Two lawyers, 28,000 documents, no searchable archive. Shipped an agentic retrieval pipeline; eval accuracy rose 20%.",
-    "date": "2026-03-14",
-    "tags": [
-      "RAG",
-      "Evals",
-      "Legal"
-    ],
-    "cover": null,
-    "featured": true,
-    "role": "Solo full-stack AI engineer",
-    "timeline": "9 weeks"
-  },
-  {
-    "slug": "latency-cut",
-    "title": "Cutting research latency by 26%",
-    "summary": "Research answers came back slow and document prep ate the week. Cut end-to-end latency 26% and manual prep 70%.",
-    "date": "2026-01-22",
-    "tags": [
-      "Performance",
-      "RAG"
-    ],
-    "cover": null,
-    "featured": true,
-    "role": "Full-stack AI engineer",
-    "timeline": "5 weeks"
-  },
-  {
-    "slug": "lead-scoring-gate",
-    "title": "A scoring gate for outbound lists",
-    "summary": "Outbound lists were manual and noisy. Added a scoring gate validated on 150 labelled rows: 658 qualified contacts across 173 companies.",
-    "date": "2025-11-08",
-    "tags": [
-      "Evals",
-      "Growth"
-    ],
-    "cover": null,
-    "featured": true,
-    "role": "Full-stack AI engineer",
-    "timeline": "4 weeks"
-  },
-  {
     "slug": "api-deployment-using-code-engine-from-ibm-cloud-services",
     "title": "API Deployment using Code engine from IBM Cloud Services",
     "summary": "deploy api to code engine services",

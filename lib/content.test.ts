@@ -28,10 +28,12 @@ describe("getAllSlugs", () => {
 
 describe("getCaseStudy", () => {
   it("returns frontmatter-stripped markdown", () => {
-    const { meta, markdown } = getCaseStudy("legal-rag-archive");
-    expect(meta.title).toMatch(/28,000 documents/);
+    const slug = getAllSlugs()[0]!;
+    const { meta, markdown } = getCaseStudy(slug);
+
+    expect(meta.title.length).toBeGreaterThan(0);
     expect(markdown.startsWith("---")).toBe(false);
-    expect(markdown).toContain("## What the problem actually was");
+    expect(markdown.length).toBeGreaterThan(0);
   });
 
   it("throws for an unknown slug", () => {

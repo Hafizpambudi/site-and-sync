@@ -23,9 +23,11 @@ test("each page has exactly one h1", async ({ page }) => {
 
 test("the work index links to a case study", async ({ page }) => {
   await page.goto("/work");
-  await page.getByRole("link", { name: /28,000 documents/i }).click();
-  await expect(page).toHaveURL(/\/work\/legal-rag-archive$/);
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("28,000 documents");
+  await page.locator('a[href^="/work/"]').first().click();
+  await expect(page).toHaveURL(/\/work\/[a-z0-9-]+$/);
+  const title = page.getByRole("heading", { level: 1 });
+  await expect(title).toHaveCount(1);
+  await expect(title).not.toBeEmpty();
 });
 
 test("explorer is static under reduced motion", async ({ page }) => {
@@ -40,7 +42,8 @@ test("explorer autoplays once it is in view", async ({ page }) => {
   await page.goto("/");
   const explorer = page.getByRole("region", { name: /explorer/i });
   await explorer.getByText("What did they hand you?").scrollIntoViewIfNeeded();
-  await expect(explorer.getByText(/Two lawyers and 28,000 documents/)).toBeVisible({
+  // The link only renders in the "answer" phase, so it proves the first reply landed.
+  await expect(explorer.getByRole("link", { name: /read the full case study/i })).toBeVisible({
     timeout: 15_000,
   });
 });
