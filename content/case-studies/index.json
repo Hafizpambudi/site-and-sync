@@ -58,5 +58,17 @@
     "role": "",
     "timeline": null,
     "demo": null
+  },
+  {
+    "slug": "how-to-handle-imbalaced-data",
+    "title": "How to handle imbalanced data for maximize Machine Learning model",
+    "summary": "Handle imbalanced data to fight bias model",
+    "date": "2024-05-22",
+    "tags": [],
+    "cover": null,
+    "featured": false,
+    "role": "",
+    "timeline": null,
+    "demo": null
   }
 ]
