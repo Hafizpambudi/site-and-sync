@@ -45,9 +45,17 @@ describe("classifyPayload", () => {
     expect(classifyPayload({ type: "page.content_updated" })).toBe("sync");
   });
 
+  it("syncs when a row is created, published or archived", () => {
+    expect(classifyPayload({ type: "page.created" })).toBe("sync");
+    expect(classifyPayload({ type: "page.properties_updated" })).toBe("sync");
+    expect(classifyPayload({ type: "page.deleted" })).toBe("sync");
+    expect(classifyPayload({ type: "page.moved" })).toBe("sync");
+  });
+
   it("ignores every other event", () => {
-    expect(classifyPayload({ type: "page.created" })).toBe("ignore");
     expect(classifyPayload({ type: "database.content_updated" })).toBe("ignore");
+    expect(classifyPayload({ type: "comment.created" })).toBe("ignore");
+    expect(classifyPayload({ type: "page" })).toBe("ignore");
     expect(classifyPayload({})).toBe("ignore");
   });
 
