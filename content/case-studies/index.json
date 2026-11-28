@@ -1,5 +1,27 @@
 [
   {
+    "slug": "ads-optimization-agent",
+    "title": "Ads Optimization agent",
+    "summary": "Client said “This ads budget is doesn’t make sense”",
+    "date": "2026-11-13",
+    "tags": [],
+    "cover": null,
+    "featured": false,
+    "role": "",
+    "timeline": null
+  },
+  {
+    "slug": "agent-should-be-faster-the-operation",
+    "title": "Agent Should be Faster the Operation",
+    "summary": "A brief use case about how we solving problem",
+    "date": "2026-11-06",
+    "tags": [],
+    "cover": null,
+    "featured": false,
+    "role": "",
+    "timeline": null
+  },
+  {
     "slug": "legal-rag-archive",
     "title": "Agentic RAG over 28,000 documents",
     "summary": "Two lawyers, 28,000 documents, no searchable archive. Shipped an agentic retrieval pipeline; eval accuracy rose 20%.",
@@ -41,5 +63,16 @@
     "featured": true,
     "role": "Full-stack AI engineer",
     "timeline": "4 weeks"
+  },
+  {
+    "slug": "api-deployment-using-code-engine-from-ibm-cloud-services",
+    "title": "API Deployment using Code engine from IBM Cloud Services",
+    "summary": "deploy api to code engine services",
+    "date": "2024-06-05",
+    "tags": [],
+    "cover": null,
+    "featured": false,
+    "role": "",
+    "timeline": null
   }
 ]
