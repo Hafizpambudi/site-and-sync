@@ -5,9 +5,10 @@ summary: "Client said “This ads budget is doesn’t make sense”"
 date: "2026-11-13"
 role: ""
 tags:
+demo: "https://hafizpambudi.github.io/ads-optimization-agent/"
 featured: false
 notionId: "417f2a12-adfd-8003-b1eb-eadf26e7c094"
-notionLastEdited: "2026-11-28T03:59:00.000Z"
+notionLastEdited: "2026-11-28T10:40:00.000Z"
 ---
 
 ### The Proof of Concept. Try demo below

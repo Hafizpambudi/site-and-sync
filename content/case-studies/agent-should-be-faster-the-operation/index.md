@@ -5,9 +5,10 @@ summary: "A brief use case about how we solving problem"
 date: "2026-11-06"
 role: ""
 tags:
+demo: "https://hafizpambudi.github.io/HIL-Pelumas-Agent/"
 featured: false
 notionId: "410f2a12-adfd-80a0-bfb8-e5062fc2735b"
-notionLastEdited: "2026-11-28T04:00:00.000Z"
+notionLastEdited: "2026-11-28T10:40:00.000Z"
 ---
 
 # The WhatsApp Admin Is the Checkout

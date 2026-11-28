@@ -9,7 +9,7 @@
     "featured": false,
     "role": "",
     "timeline": null,
-    "demo": null
+    "demo": "https://hafizpambudi.github.io/ads-optimization-agent/"
   },
   {
     "slug": "agent-should-be-faster-the-operation",
@@ -21,7 +21,7 @@
     "featured": false,
     "role": "",
     "timeline": null,
-    "demo": null
+    "demo": "https://hafizpambudi.github.io/HIL-Pelumas-Agent/"
   },
   {
     "slug": "api-deployment-using-code-engine-from-ibm-cloud-services",
