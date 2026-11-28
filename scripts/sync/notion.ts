@@ -13,6 +13,8 @@ export const NOTION_VERSION = "2025-09-03";
 
 export type PublishedRow = RemoteRow & {
   properties: Record<string, unknown>;
+  /** Fallback date for databases that do not carry a Date property. */
+  createdTime: string;
 };
 
 type NotionProperty = {
@@ -68,22 +70,36 @@ export function propertyFiles(properties: Record<string, unknown>, name: string)
     .filter((url) => url.length > 0);
 }
 
+/**
+ * A Notion database names its own properties, so the sync accepts the names
+ * people actually use instead of forcing a rename that breaks their views.
+ */
+function firstText(properties: Record<string, unknown>, names: string[]): string {
+  for (const name of names) {
+    const value = propertyText(properties, name);
+    if (value) return value;
+  }
+  return "";
+}
+
 export function extractMeta(
   properties: Record<string, unknown>,
   slug: string,
+  createdTime: string | null = null,
 ): { meta: CaseStudyMeta; coverSource: string | null } {
-  const timeline = propertyText(properties, "Timeline");
+  const timeline = firstText(properties, ["Timeline"]);
+  const date = firstText(properties, ["Date"]) || (createdTime ?? "");
 
   return {
     meta: {
       slug,
-      title: propertyText(properties, "Title"),
-      summary: propertyText(properties, "Summary"),
-      date: propertyText(properties, "Date").slice(0, 10),
+      title: firstText(properties, ["Title", "Project", "Name"]),
+      summary: firstText(properties, ["Summary", "Short Description", "Description"]),
+      date: date.slice(0, 10),
       tags: propertyTags(properties, "Tags"),
       cover: null,
       featured: propertyText(properties, "Featured") === "true",
-      role: propertyText(properties, "Role"),
+      role: firstText(properties, ["Role"]),
       timeline: timeline || null,
     },
     coverSource: propertyFiles(properties, "Cover")[0] ?? null,
@@ -139,6 +155,7 @@ export async function queryPublished(notion: Client, databaseId: string): Promis
         notionId: String(result.id),
         slug: propertyText(properties, "Slug"),
         lastEdited: String((result as { last_edited_time?: string }).last_edited_time ?? ""),
+        createdTime: String((result as { created_time?: string }).created_time ?? ""),
         properties,
       });
     }

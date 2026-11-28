@@ -19,6 +19,44 @@ GitHub Actions secrets:
 | `NOTION_TOKEN` | sync worker | Internal integration secret. The Case Studies database must be shared with this integration. |
 | `NOTION_DATABASE_ID` | sync worker | The database the sync reads. |
 
+## Notion schema
+
+The sync reads property names, case-sensitively. Two are required; everything else is optional.
+
+| Property | Type | Notes |
+| --- | --- | --- |
+| `Slug` | Text | Required. Lowercase kebab-case. Becomes the URL. |
+| `Status` | Select | Required. Only `Published` syncs. |
+| `Title` or `Project` | Title | Row title. Either name works. |
+| `Summary` or `Short Description` | Text | Card and meta description. |
+| `Date` | Date | Optional; falls back to the row's creation time. |
+| `Tags` | Multi-select | Card chips and the `/work` filter. |
+| `Featured` | Checkbox | Pins the row on the home page. |
+| `Role` | Text | Shown under the case study title. |
+| `Timeline` | Text | Shown under the case study title. |
+| `Cover` | Files | Downloaded into `public/content/case-studies/<slug>/`. |
+
+A `Status` property of type *Status* (the Notion status kind) does not work — the query filters a Select. Use Select.
+
+## Figure out a database id
+
+Open the database as a full page. In the URL, the 32-character hex in the path is the database id; the `?v=` value is only the view id.
+
+```
+https://app.notion.com/p/37181055e1ee4d809b8f8067a2ee7343?v=33d6ac96...
+                         └────────── database id ──────────┘   └─ view, ignore ─┘
+```
+
+If that id returns `object_not_found`, list every database the connection can see:
+
+```bash
+curl -s https://api.notion.com/v1/search \
+  -H "Authorization: Bearer $NOTION_TOKEN" \
+  -H "Notion-Version: 2025-09-03" \
+  -H "Content-Type: application/json" \
+  -d '{"filter":{"property":"object","value":"database"},"page_size":100}'
+```
+
 ## Go-live checklist
 
 1. **Create the Notion integration.** Share the Case Studies database with it. Copy the internal integration secret.

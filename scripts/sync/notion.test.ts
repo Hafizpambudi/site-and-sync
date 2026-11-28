@@ -105,4 +105,36 @@ describe("extractMeta", () => {
     expect(meta.timeline).toBeNull();
     expect(coverSource).toBeNull();
   });
+
+  it("reads a database that names its own properties", () => {
+    const { meta } = extractMeta(
+      {
+        Project: { type: "title", title: rich("Ads optimisation agent") },
+        Slug: { type: "rich_text", rich_text: rich("ads-optimisation-agent") },
+        "Short Description": { type: "rich_text", rich_text: rich("The budget was wasted.") },
+      },
+      "ads-optimisation-agent",
+    );
+
+    expect(meta.title).toBe("Ads optimisation agent");
+    expect(meta.summary).toBe("The budget was wasted.");
+  });
+
+  it("falls back to the row creation time when there is no Date", () => {
+    const { meta } = extractMeta(
+      {
+        Project: { type: "title", title: rich("T") },
+        "Short Description": { type: "rich_text", rich_text: rich("S") },
+      },
+      "t",
+      "2026-02-03T10:00:00.000Z",
+    );
+
+    expect(meta.date).toBe("2026-02-03");
+  });
+
+  it("prefers the Date property over the creation time", () => {
+    const { meta } = extractMeta(properties(), "a", "2020-01-01T00:00:00.000Z");
+    expect(meta.date).toBe("2026-03-14");
+  });
 });

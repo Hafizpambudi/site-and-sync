@@ -31,10 +31,10 @@ async function main(): Promise<void> {
   const notion = notionClient(token);
 
   const fetchPage = async (row: RemoteRow) => {
-    const properties = (row as PublishedRow).properties;
+    const { properties, createdTime } = row as PublishedRow;
     if (!properties) throw new Error(`notion returned no properties for ${row.notionId}`);
 
-    const { meta, coverSource } = extractMeta(properties, row.slug);
+    const { meta, coverSource } = extractMeta(properties, row.slug, createdTime);
     const blocks = await fetchPageTree(notion, row.notionId);
 
     const images = dryRun ? new Map<string, string>() : await downloadImages(blocks, row.slug);
