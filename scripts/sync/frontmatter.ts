@@ -43,13 +43,17 @@ function parseScalar(raw: string): string | number | boolean {
 }
 
 export function parseFrontmatter(raw: string): { data: FrontmatterData; body: string } {
-  if (!raw.startsWith("---\n")) return { data: {}, body: raw };
+  // A Windows checkout with core.autocrlf=true rewrites LF to CRLF, which the
+  // LF-only reader below would miss, silently emptying every field.
+  const text = raw.replace(/\r\n/g, "\n");
 
-  const close = raw.indexOf("\n---", 3);
+  if (!text.startsWith("---\n")) return { data: {}, body: raw };
+
+  const close = text.indexOf("\n---", 3);
   if (close === -1) return { data: {}, body: raw };
 
-  const header = raw.slice(4, close);
-  const rest = raw.slice(close + 4);
+  const header = text.slice(4, close);
+  const rest = text.slice(close + 4);
   const body = rest.startsWith("\n") ? rest.slice(1) : rest;
 
   const data: FrontmatterData = {};

@@ -57,4 +57,12 @@ describe("parseFrontmatter", () => {
     expect(parsed.data).toEqual({ title: "T" });
     expect(parsed.body).toBe("");
   });
+
+  it("parses frontmatter written with CRLF line endings", () => {
+    const raw = '---\r\ntitle: "T"\r\ntags:\r\n  - "x"\r\nnotionId: "abc"\r\n---\r\nBody.\r\n';
+    const parsed = parseFrontmatter(raw);
+
+    expect(parsed.data).toEqual({ title: "T", tags: ["x"], notionId: "abc" });
+    expect(parsed.body).toBe("Body.\n");
+  });
 });
