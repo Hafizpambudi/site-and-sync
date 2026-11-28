@@ -24,6 +24,18 @@
     "demo": "https://hafizpambudi.github.io/HIL-Pelumas-Agent/"
   },
   {
+    "slug": "realtime-rag-feeder-pipeline",
+    "title": "Realtime RAG feeder pipeline - ETL with Tmux,EC2, S3 and Qdrant",
+    "summary": "a guide to implement etl on aws",
+    "date": "2025-05-02",
+    "tags": [],
+    "cover": null,
+    "featured": false,
+    "role": "",
+    "timeline": null,
+    "demo": null
+  },
+  {
     "slug": "api-deployment-using-code-engine-from-ibm-cloud-services",
     "title": "API Deployment using Code engine from IBM Cloud Services",
     "summary": "deploy api to code engine services",
