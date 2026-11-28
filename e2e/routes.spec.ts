@@ -23,10 +23,17 @@ test("each page has exactly one h1", async ({ page }) => {
 
 test("the work index links to a case study", async ({ page }) => {
   await page.goto("/work");
-  await page.locator('a[href^="/work/"]').first().click();
-  await expect(page).toHaveURL(/\/work\/[a-z0-9-]+$/);
+
+  const link = page.locator('a[href^="/work/"]').first();
+  const href = await link.getAttribute("href");
+  expect(href).toMatch(/^\/work\/[a-z0-9-]+$/);
+
+  // The first hit compiles the route in dev, so give the navigation room.
+  await link.click();
+  await expect(page).toHaveURL(new RegExp(`${href}$`), { timeout: 30_000 });
+
   const title = page.getByRole("heading", { level: 1 });
-  await expect(title).toHaveCount(1);
+  await expect(title).toHaveCount(1, { timeout: 30_000 });
   await expect(title).not.toBeEmpty();
 });
 
